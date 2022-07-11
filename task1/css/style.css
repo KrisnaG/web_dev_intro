@@ -3,7 +3,7 @@
 /* element selectors */
 body {
     background: linear-gradient(245deg, #e66465, #9198e5, #cae664, #91e5d3);
-    font-family: Courier;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 main {
@@ -22,12 +22,13 @@ h1 {
 h2 {
     font-weight: bold;
     font-size: x-large;
+    font-style: italic;
 }
 
 nav {
     text-align: center;
-    padding: 10px;
-    border: 2px solid #660707;
+    padding: 1em;
+    border: 0.5em solid #660707;
 }
 
 nav li {
@@ -48,7 +49,6 @@ nav li a {
     width: 50%;
     padding: 5%;
     text-align: center;
-    flex-flow: flex;
 }
 
 .column h2 {
@@ -64,17 +64,17 @@ nav li a {
 #left-column table {
     width: 100%;
     text-align: left;
-    padding: 5px;
+    padding: 5em;
 }
 
 #left-column img {
     width: 100%;
     border-radius: 10%;
-    border: 1px #8b8d17 solid;
+    border: 1em #8b8d17 solid;
 }
 
 /* when to change from two to one column */
-@media screen and (max-width: 700px) {
+@media (max-width: 600px) {
     .column {
       width: 100%;
     }
