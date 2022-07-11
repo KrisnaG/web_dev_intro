@@ -1,24 +1,47 @@
+/* https://css-tricks.com/how-to-section-your-html/#dont-use-the-word-nav-or-navigation-in-the-label
+
+/* element selectors */
 body {
-    background-color:#ffe4c4;
+    background: linear-gradient(245deg, #e66465, #9198e5, #cae664, #91e5d3);
     font-family: Courier;
+}
+
+main {
+    background-color: #9198e5;
+    overflow: auto;
 }
 
 h1 {
     font-size: 200%;
     font-weight: bold;
     text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: x-large;
 }
 
 nav {
     text-align: center;
+    padding: 10px;
+    border: 2px solid #660707;
 }
 
 nav li {
     display: inline;
-    padding: 5%;
 }
 
+nav li a {
+    padding: 4%;
+    text-decoration: none;
+    font-weight: bold;
+    color: darkgreen;
+}
 
+/* element classes */
 .column {
     box-sizing: border-box;
     float: left;
@@ -28,6 +51,29 @@ nav li {
     flex-flow: flex;
 }
 
+.column h2 {
+    padding: 5%;
+}
+
+.column li, p {
+    text-align: left;
+    list-style-type:circle;
+}
+
+/* specific elements by id */
+#left-column table {
+    width: 100%;
+    text-align: left;
+    padding: 5px;
+}
+
+#left-column img {
+    width: 100%;
+    border-radius: 10%;
+    border: 1px #8b8d17 solid;
+}
+
+/* when to change from two to one column */
 @media screen and (max-width: 700px) {
     .column {
       width: 100%;
