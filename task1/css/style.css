@@ -23,6 +23,7 @@ h2 {
     font-weight: bold;
     font-size: x-large;
     font-style: italic;
+    text-align: center;
 }
 
 nav {
@@ -35,7 +36,7 @@ nav li {
     display: inline;
 }
 
-nav li a {
+nav a {
     padding: 4%;
     text-decoration: none;
     font-weight: bold;
@@ -55,20 +56,42 @@ nav li a {
     padding: 5%;
 }
 
-.column li, p {
+.column p {
     text-align: left;
     list-style-type:circle;
 }
 
 /* specific elements by id */
-#left-column table {
-    width: 100%;
-    text-align: left;
-    padding: 5em;
+#left-column strong {
+    display: block;
+    border-radius: 50%;
+    margin: 2%;
+    font-family: serif;
+    font-size: 150%;
+}
+
+#left-column dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+#left-column dt, 
+#left-column dd {
+    padding: 1em;
+}
+
+#left-column dt {
+    font-weight: bold;
+    color: #10056b; 
+}
+
+#left-column dd ~ dt,
+#left-column dd ~ dd {
+    border-top: 0.2em solid #660707;
 }
 
 #left-column img {
-    width: 100%;
+    width: 60%;
     border-radius: 10%;
     border: 1em #8b8d17 solid;
 }
