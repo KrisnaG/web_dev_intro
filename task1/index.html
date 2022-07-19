@@ -1,3 +1,14 @@
+<!--
+    A website dating profile for the fictional character Logan Ripley.
+
+    Author: Krisna Gusti (kgusti@myune.edu.au)
+    Image - Original creation. Created by myself in MS Paint for COSC260 Assignment 1.
+
+    Tested on:
+        - Mozilla Firefox, version 102.0.1 (64-bit)
+        - Microsoft Edge, version 103.0.1264.62 (64-bit)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,69 +26,80 @@
     <!-- START HEADER -->
     <header id="page-top">
         <h1>Date A Geek Today!</h1>
-        <nav id="nav-top">
-            <ul>
-                <li><a href="#about-me">About Me</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#hobbies">Hobbies</a></li>
-                <li><a href="#shows">Tv Shows</a></li>
-                <li><a href="#games">Games</a></li>
-            </ul>
-        </nav>
     </header>
+    <nav>
+        <ul>
+            <li><a href="#about-me">About Me</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#hobbies">Hobbies</a></li>
+            <li><a href="#shows">Tv Shows</a></li>
+            <li><a href="#games">Games</a></li>
+        </ul>
+    </nav>
     <!-- END HEADER -->
     <!-- START MAIN -->
     <main>
         <!-- START LEFT COLUMN -->
-        <div id="left-column" class="column">
-            <img src="img/profile-pic.png" alt="Profile-Picture">
-            <h2><strong>Logan Ripley</strong></h2>
-            <dl id="contact">
+        <div id="column-left" class="column">
+            <img src="img/profile-pic.png" alt="Profile-Picture" class="content-left">
+            <h2 class="content-left">
+                <strong>Logan Ripley</strong>
+            </h2>
+            <dl id="contact" class="content-left">
                 <dt>Username</dt>
                 <dd>ripper_lo</dd>
 
                 <dt>Phone</dt>
-                <dd>lripped@geekmail.com</dd>
-
+                <dd>0412 345 678</dd>
+                
                 <dt>Email</dt>
-                <dd>0436 489 674</dd>
+                <dd>lripped@geekmail.com</dd>
             </dl>
         </div>
         <!-- END LEFT COLUMN -->
         <!-- START RIGHT COLUMN -->
-        <div id="right-column"  class="column">
-            <article>
+        <div id="column-right" class="column">
+            <article class="content-right">
                 <h2 id="about-me">About Me</h2>
                 <p> 
-                    Hi, my name is Logan. I'm a male, a Virgo and 26 years old. 
-                    <br><br>
-                    What am I looking for? I love gaming, it is my true passion 
-                    and I'm looking for someone to share it with.
+                    Hi, my name is Logan. I'm a male, a Virgo and 26 years old. I'm wear glasses,
+                    I have a cool hat and I'm into gaming.
+                </p>
+                <blockquote>
+                    <p>
+                        "So you're a little weird? Work It! A little different? 
+                        Own it! Better to be a nerd than one of the herd!" <br>- Mandy Hale
+                    </p>
+                </blockquote>
+                <p>
+                    What am I looking for? You guessed it, a gamer girl. Gaming is my true passion 
+                    and I'm looking for someone to share it with and compete against. I assure you,
+                    it will not be an easy task.
                 </p>
             </article>
-            <section>
+            <section class="content-right">
                 <h2 id="hobbies">Favourite Hobbies</h2>
-                <ol>
+                <ul>
                     <li>Building Lego Geeks</li>
                     <li>Geek Board Games</li>
                     <li>Web Design</li>
                     <li>DJing for Geeks</li>
                     <li>Train Watching</li>
-                </ol>
+                </ul>
             </section>
-            <section>
-                <h2 id="shows">Favourite TV Show</h2>
-                <ol>
+            <section class="content-right">
+                <h2 id="shows">Favourite TV Shows</h2>
+                <ul>
                     <li>Doctor Geek</li>
                     <li>Freaks and Geeks</li>
                     <li>Halt and Catch Geek</li>
                     <li>Mr Geek</li>
                     <li>Geek of Interest</li>
-                </ol>
+                </ul>
             </section>
-            <section>
+            <section class="content-right">
                 <h2 id="games">Favourite Games</h2>
-                <ol>
+                <ul>
                     <li>The Last of Geek</li>
                     <li>The Legend of Zelda: Breath of the Geek</li>
                     <li>The Witcher 3: Geek Hunt</li>
@@ -85,7 +107,7 @@
                     <li>Shadow of the Geek</li>
                     <li>Red Geek Redemption</li>
                     <li>StarCraft: Geek War</li>
-                </ol>
+                </ul>
             </section>
         </div>
         <!-- END RIGHT COLUMN -->
@@ -93,13 +115,7 @@
     <!-- END MAIN -->
     <!-- START FOOTER -->
     <footer>
-    <nav id="nav-bottom">
-        <ul>
-            <li><a href="#page-top">Top</a></li>
-            <li><a href="#about-me">About Me</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+        <a href="#page-top">Top</a>
     </footer>
     <!-- END FOOTER -->
 </body>
