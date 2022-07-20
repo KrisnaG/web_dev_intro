@@ -3,25 +3,30 @@
     Author: Krisna Gusti (kgusti@myune.edu.au)
 */
 
-/* element selectors */
+/* Background and font style */
 body {
     background: linear-gradient(245deg, #e66465, #9198e5, #cae664, #91e5d3);
     font-family:'Gill Sans', 'Gill Sans MT', sans-serif;
+    text-align: center;
 }
 
+/* Background for main content */
+main {
+    overflow: auto;
+    background-color: #ade6ad;
+}
+
+/* Style header */
 header {
     margin: 2%;
+    font-family: monospace;
 }
 
+/* Style nav and footer */
 nav, footer {
     text-align: center;
     background-color: #89DD;
     padding: 0.5em;
-}
-
-nav li {
-    display:inline;
-    padding: 2%;
 }
 
 nav li a, footer a {
@@ -30,10 +35,22 @@ nav li a, footer a {
     transition: .5s;
 }
 
-footer {
-    clear: both;
+/* Display links horizontally */
+nav li, footer li {
+    display:inline;
+    padding: 2%;
 }
 
+footer p {
+    padding-top: 1%;
+}
+
+/* Push footer to bottom of all content */
+footer {
+    clear: none;
+}
+
+/* Format image */
 img {
     width: 60%;
     max-width: 25em;
@@ -41,6 +58,7 @@ img {
     border: 1em #8b8d17 solid;
 }
 
+/* Style headings */
 h1 {
     font-weight: bold;
     text-align: center;
@@ -54,6 +72,7 @@ h2 {
     font-style: italic;
 }
 
+/* Style strong - Users name */
 strong {
     display: block;
     border-radius: 50%;
@@ -62,24 +81,12 @@ strong {
     font-size: 150%;
 }
 
-article p {
-    margin-bottom: 2em;
-}
-
-main {
-    overflow: auto;
-    background-color: #ade6ad;
-}
-
-/* element classes */
-.column {
-    text-align: center;
-}
-
+/* Style content of right column */
 .content-right p {
     text-align: left;
     padding: 0 15% 0 15%;
     font-size: 110%;
+    margin-bottom: 2em;
 }
 
 .content-right ul {
@@ -89,6 +96,7 @@ main {
     font-size: 110%;
 }
 
+/* Style quote and float to the right */
 .content-right blockquote {
     background-color: #1c549c;
     color: #e1e45c;
@@ -105,6 +113,7 @@ main {
     font-size: 0.75em;
 }
 
+/* Compress content */
 .content-right, .content-left {
     margin: 5%;
 }
@@ -122,6 +131,7 @@ main {
     padding-top: 5%;
 }
 
+/* Style and format contact details */
 #column-left dl {
     display: grid;
     grid-template-columns: 3.5em 100%;
@@ -151,13 +161,14 @@ main {
     margin-right: 2em;
 }
 
-/* pseudo class elements */
+/* Add hover effect for navigation elements */
 nav li a:hover, footer a:hover {
     font-size: 150%;
     font-weight: bold;
     color: #9e0808;
 }
 
+/* Colour bullet points alternating colours */
 #column-right li:nth-child(odd) {
     color: #660707;
 }
@@ -168,19 +179,22 @@ nav li a:hover, footer a:hover {
 
 /* when screen size is less than 600px */
 @media (max-width: 600px) {
+    /* Compress navigational links together */
     nav li {
         padding: 1%;
     }
 
+    /* Reduce hover effect size */
+    nav li a:hover {
+        font-size: 110%;
+    }
+
+    /* Remove two column layout */
     #column-right {
         margin-left: 0%;
     }
 
     #column-left {
         width: 100%;
-    }
-
-    nav li a:hover {
-        font-size: 110%;
     }
 }
