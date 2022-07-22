@@ -23,20 +23,23 @@ header {
 }
 
 /* Style nav and footer */
-nav, footer {
+nav, 
+footer {
     text-align: center;
     background-color: #89DD;
     padding: 0.5em;
 }
 
-nav li a, footer a {
+nav li a, 
+footer a {
     color: #0f3618;
     text-decoration: none;
     transition: .5s;
 }
 
 /* Display links horizontally */
-nav li, footer li {
+nav li, 
+footer li {
     display:inline;
     padding: 2%;
 }
@@ -87,6 +90,7 @@ strong {
     padding: 0 15% 0 15%;
     font-size: 110%;
     margin-bottom: 2em;
+    max-width: 30em;
 }
 
 .content-right ul {
@@ -114,7 +118,8 @@ strong {
 }
 
 /* Compress content */
-.content-right, .content-left {
+.content-right, 
+.content-left {
     margin: 5%;
 }
 
@@ -134,7 +139,7 @@ strong {
 /* Style and format contact details */
 #column-left dl {
     display: grid;
-    grid-template-columns: 3.5em 100%;
+    grid-template-columns: 5.5em 90%;
 }
 
 #column-left dt, 
@@ -162,7 +167,8 @@ strong {
 }
 
 /* Add hover effect for navigation elements */
-nav li a:hover, footer a:hover {
+nav li a:hover, 
+footer a:hover {
     font-size: 150%;
     font-weight: bold;
     color: #9e0808;
