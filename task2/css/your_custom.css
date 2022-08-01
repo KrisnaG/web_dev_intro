@@ -18,6 +18,6 @@
 }
 
 /* use this class to make error text red */
-.error {
+#user_message {
     background-color: red;
 }

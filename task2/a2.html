@@ -2,17 +2,28 @@
 <html lang="en">
 <head>
     <title>COSC260 Assignment 2</title>
+    
+    <!-- Meta data -->
     <meta charset="UTF-8">
     <meta name="description" content="COSC260 Assignmnet 2">
     <meta name="keywords" content="COSC260, Web Programming, Assignment 2, UNE">
     <meta name="author" content="James Bishop">
+    
+    <!-- CSS  -->
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/your_custom.css">
+    
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
+
+    <!-- JS -->
     <script type="text/javascript" src="js/validate.js"></script>
+    <script type="text/javascript" src="js/quiz.js"></script>
+    <script type="text/javascript" src="js/animate.js"></script>
+
 </head>
 <body>
     <!-- wrapper -->
@@ -21,9 +32,9 @@
         <!-- img animation -->
         <!-- JQUERY ANIMATION SHOULD BE DONE HERE -->
         <div id="img_animation">
-            <img src="img/hedgehog.jpeg" title="Hedgehog" alt="Hedgehog" width="288px" height="190px"/>
+            <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288px" height="190px"/>
             <img src="img/deer.jpg" title="Deer" alt="Deer" width="288px" height="190px" class="hidden"/>
-            <img src="img/leopard.jpeg" title="Leopard" alt="Leopard" width="288px" height="190px" class="hidden"/>
+            <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288px" height="190px" class="hidden"/>
         </div>
         
         
@@ -45,11 +56,11 @@
                 <legend><h2>User Registration</h2></legend>
                 <fieldset>
                     <label for="name">Name:</label>
-                    <input type="text" name="name" id="name" />
+                    <input type="text" name="name" id="name"/>
                 </fieldset>
                 <fieldset>
                     <label for="age">Age:</label>
-                    <input type="text" name="age" id="age" />
+                    <input type="text" name="age" id="age"/>
                 </fieldset>
                 <fieldset>
                     <label for="email">Email:</label>
