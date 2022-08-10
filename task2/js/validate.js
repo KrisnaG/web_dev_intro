@@ -1,12 +1,17 @@
 // Window onLoad listener
-window.onload = () => {
+window.onload = (e) => {
     document.getElementById("registration").addEventListener("submit", validate);
     document.getElementById("registration").addEventListener("reset", clearForm);
+    e.preventDefault();
 }
 
-function clearForm(e) {
+function clearForm() {
     document.getElementById('user_message').className = 'invisible';
     clearErrors();
+}
+
+function clearErrors() {
+    document.getElementById('user_message').innerHTML = '';
 }
 
 // errors must be displayed in the #user_message HTML element
@@ -18,14 +23,10 @@ function addError(err) {
     document.getElementById('user_message').className = 'none';
 }
 
-function clearErrors() {
-    document.getElementById('user_message').innerHTML = '';
-}
-
 function validate(e) {
     let successful = true;
 
-    clearErrors();
+    clearForm();
 
     e.preventDefault();
 
@@ -41,7 +42,7 @@ function validate(e) {
     if (!successful)
         e.preventDefault();
     else
-    console.log("okay")
+        console.log("okay");
 }
 
 function validateName(name) {

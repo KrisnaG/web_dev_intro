@@ -2,9 +2,8 @@
    As this file is loaded last, you can override other CSS styles, if needed.     
 */
 
-
 /* use this class to hide elements 
-   the space for the element will NOT be preserved
+the space for the element will NOT be preserved
 */
 .hidden {
     display: none;
@@ -20,4 +19,19 @@
 /* use this class to make error text red */
 #user_message {
     background-color: red;
+}
+
+#img_animation {
+    display: flex;
+}
+
+.image_container {
+    flex: 30%;
+}
+
+/* mobile - change to 1-column layout */
+@media only screen and (max-width: 516px) {
+    #img_animation {
+        display: inline;
+    }
 }
