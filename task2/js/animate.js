@@ -1,13 +1,25 @@
+/**
+ * 
+ */
+
+// Window onLoad action - set an interval
 $(function() {
-    setInterval("updateImage()", 3000);
+    setInterval("updateImage()", 5000);
 });
 
+/**
+ * 
+ */
 function updateImage() {
     animationOne($('#animation_one img:visible'));
     animationTwo($('#animation_two img:visible'));
     animationThree($('#animation_three img:visible'));
 }
 
+/**
+ * 
+ * @param {*} $visible 
+ */
 function animationOne($visible) {
     var $next = $visible.next();
 
@@ -18,6 +30,10 @@ function animationOne($visible) {
     $next.show(1500);
 }
 
+/**
+ * 
+ * @param {*} $visible 
+ */
 function animationTwo($visible) {
     var $next = $visible.next();
 
@@ -28,7 +44,10 @@ function animationTwo($visible) {
     $next.slideDown(1500);
 }
 
-
+/**
+ * 
+ * @param {*} $visible 
+ */
 function animationThree($visible) {
     var $next = $visible.next();
 

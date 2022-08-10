@@ -1,20 +1,27 @@
+/**
+ * 
+ */
+
 // Window onLoad listener
-window.onload = (e) => {
+window.onload = () => {
     document.getElementById("registration").addEventListener("submit", validate);
-    document.getElementById("registration").addEventListener("reset", clearForm);
-    e.preventDefault();
+    document.getElementById("registration").addEventListener("reset", clearErrors);
 }
 
-function clearForm() {
-    document.getElementById('user_message').className = 'invisible';
-    clearErrors();
-}
+var loggedIn = false;
 
+/**
+ * 
+ */
 function clearErrors() {
+    document.getElementById('user_message').className = 'invisible';
     document.getElementById('user_message').innerHTML = '';
 }
 
-// errors must be displayed in the #user_message HTML element
+/**
+ * 
+ * @param {*} err 
+ */
 function addError(err) {
     var p = document.createElement("p");
     var text = document.createTextNode(err);
@@ -23,12 +30,15 @@ function addError(err) {
     document.getElementById('user_message').className = 'none';
 }
 
+/**
+ * 
+ * @param {*} e 
+ */
 function validate(e) {
-    let successful = true;
-
-    clearForm();
-
+    var successful = true;
+    
     e.preventDefault();
+    clearErrors();
 
     if (!validateName(document.getElementById('name').value)) 
         successful = false;
@@ -39,12 +49,15 @@ function validate(e) {
     if (!validatePhone(document.getElementById('phone').value)) 
         successful = false;
 
-    if (!successful)
-        e.preventDefault();
-    else
-        console.log("okay");
+    if (successful)
+        registerUser();
 }
 
+/**
+ * 
+ * @param {*} name 
+ * @returns 
+ */
 function validateName(name) {
     if (!name) {
         addError("Name must not be empty");
@@ -61,6 +74,11 @@ function validateName(name) {
     return true;
 }
 
+/**
+ * 
+ * @param {*} age 
+ * @returns 
+ */
 function validateAge(age) {
     if (!age) {
         addError("Age must not be empty");
@@ -79,6 +97,11 @@ function validateAge(age) {
     return true;
 }
 
+/**
+ * 
+ * @param {*} email 
+ * @returns 
+ */
 function validateEmail(email) {
     if (!email) {
         addError("Email must not be empty");
@@ -91,6 +114,11 @@ function validateEmail(email) {
     return true;
 }
 
+/**
+ * 
+ * @param {*} phone 
+ * @returns 
+ */
 function validatePhone(phone) {
     if (phone) {
         if (!/^[0-9]+$/.test(phone)) {
@@ -107,4 +135,44 @@ function validatePhone(phone) {
         }
     }
     return true;
+}
+
+/**
+ * 
+ */
+function registerUser() {
+    $.ajax({
+        url: 'http://turing.une.edu.au/~jbisho23/assignment2/register.php',
+        method: 'POST',
+        data: {
+            name : document.getElementById('name').value,
+            age : document.getElementById('age').value,
+            email : document.getElementById('email').value,
+            phone : document.getElementById('phone').value
+        },
+        dataType: 'json',
+        success: function(data) {
+            loggedIn = true;
+
+            // display user id
+            $('#user_id p').html(data["user_id"]);
+
+            // hide registration
+            $('#registration').slideUp(500, function() {
+                $('#registration').addClass('hidden');
+            });
+              
+            $('#quiz').slideDown(500, function() {
+                $('#quiz').removeClass('hidden');
+            });
+
+            $('#welcome').addClass('hidden');
+            $('#score').removeClass('hidden');
+        },
+        error: function(jqXHR) {
+            var $e = JSON.parse(jqXHR.responseText);
+            console.log('Status code: '+$e.error);
+            console.log('Error message: '+$e.message);
+        }
+    });
 }
