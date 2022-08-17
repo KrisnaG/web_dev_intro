@@ -21,6 +21,23 @@ the space for the element will NOT be preserved
     background-color: red;
 }
 
+/* My custom CSS */
+
+body {
+    background-color:rgb(236, 245, 197);
+    overflow-anchor: none;
+}
+
+#wrapper {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    width: 80%;
+}
+
+#sidebar {
+    text-align: center;
+}
+
 #img_animation {
     display: flex;
 }
