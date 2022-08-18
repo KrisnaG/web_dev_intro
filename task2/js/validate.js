@@ -1,5 +1,11 @@
 /**
- * 
+ * validate.js
+ * @author Krisna Gusti
+ * @brief Validates the form data before it is sent to the server.
+ * A user error message is displayed for each invalid response. Once
+ * the form data is valid, it sends the data to the server via AJAX
+ * request. A response is returned from the sever with the users 
+ * ID, then the user id is updated and it switches to the quiz form.
  */
 
 // Window onLoad listener
@@ -14,6 +20,7 @@ window.onload = () => {
 function clearErrors() {
     var userMessage = document.getElementById("user_message");
 
+    // hide user message box and clear its content
     userMessage.classList.add("invisible");
     userMessage.innerHTML = "";
 }
@@ -34,7 +41,8 @@ function addError(error) {
 }
 
 /**
- * 
+ * Validates a users name, age, email and phone number
+ * from the submit form.
  * @param event submit event
  */
 function validate(event) {
@@ -69,19 +77,22 @@ function validate(event) {
  * @returns true within specifications, otherwise false
  */
 function validateName(name) {
+    var valid = true;
+
     if (!name) {
         addError("Name must not be empty");
-        return false;
+        valid =false;
     }
     if (name.length < 2 || name.length > 100) {
         addError("Name must be between 2 and 100 characters long");
-        return false;
+        valid = false;
     }
     if (!/^[a-zA-Z'-]+$/.test(name)) {
         addError("Name must only contain upper and lower case, hyphen, or apostrophe characters");
-        return false;
+        valid = false;
     }
-    return true;
+
+    return valid;
 }
 
 /**
@@ -90,19 +101,19 @@ function validateName(name) {
  * @returns true within specifications, otherwise false
  */
 function validateAge(age) {
+    var valid = true;
+
     if (!age) {
         addError("Age must not be empty");
-        return false;
+        valid = false;
     }
-    if (!/^[0-9]+$/.test(age)) {
-        addError("Age must be a number");
-        return false;
+    if (!/^[0-9]+$/.test(age) || (parseInt(age) < 13) || 
+            (parseInt(age) > 130)) {
+        addError("Age must be an integer value between 13 and 130");
+        valid = false;
     }
-    if (parseInt(age) < 13 || parseInt(age) > 130) {
-        addError("Age must be between 13 and 130");
-        return false;
-    }
-    return true;
+
+    return valid;
 }
 
 /**
@@ -111,15 +122,18 @@ function validateAge(age) {
  * @returns true within specifications, otherwise false
  */
 function validateEmail(email) {
+    var valid = true;
+
     if (!email) {
         addError("Email must not be empty");
-        return false;
+        valid = false;
     }
     if (!/^[a-zA-Z-]([\w-.]+)?@([\w-]+\.)+[\w]+$/.test(email)) {
-        addError("Invalid email address");
-        return false;
+        addError("Email must be a valid email address");
+        valid = false;
     }
-    return true;
+
+    return valid;
 }
 
 /**
@@ -128,21 +142,24 @@ function validateEmail(email) {
  * @returns true within specifications, otherwise false
  */
 function validatePhone(phone) {
+    var valid = true;
+
     if (phone) {
-        if (!/^[0-9]+$/.test(phone)) {
-            addError("Phone number must only be numbers");
-            return false;
-        }
         if (phone.length != 10) {
             addError("Phone number must be ten digits long");
-            return false;
+            valid = false;
+        }
+        if (!/^[0-9]+$/.test(phone)) {
+            addError("Phone number must only be numbers");
+            valid = false;
         }
         if (!/^04/.test(phone)) {
             addError("Phone number must begin with a 04");
-            return false;
+            valid = false;
         }
     }
-    return true;
+
+    return valid;
 }
 
 /**

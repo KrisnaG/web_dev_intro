@@ -1,11 +1,13 @@
 /**
- * 
+ * quiz.js
+ * @author Krisna Gusti
+ * @brief 
  */
 
 // Window onLoad actions and listeners
 $(function() {
     // initial quiz setup
-    getQuestionList();
+    getNewQuestion();
     updateResults();
     
     // submit button listener
@@ -14,100 +16,28 @@ $(function() {
             e.preventDefault();
             var selected = $("form input[name=answer]:checked").val();
             if (selected)
-                getAnswer(questionId, selected);
+            getAnswer(questionId, selected);
         }
-    );
-
-    // next button listener
-    $("#quiz button[value=Next]").click(function () {
-        nextQuiz();
-    })
-});
-
+        );
+        
+        // next button listener
+        $("#quiz button[value=Next]").click(function () {
+            nextQuiz();
+        })
+    });
+    
 // Global variables
-var questionId = 0;         // question id
-var checkedId;              // answer input id
-var attempted = 0;          // 
-var correct = 0;            // 
-var incorrect = 0;          // 
-
-function generateQuestionID(data) {
-    var length = data["questions"].length;
-    var id = Math.floor(Math.random() * (length - 1));
-    console.log("new: " + data["questions"][id]);
-    console.log("current: " + questionId);
-    if (data["questions"][id] === questionId) 
-        generateQuestionID();
-    else 
-        return data["questions"][id];
-}
+var checkedId;                  // answer input id
+var questionId = 0;             // question id
+var attempted = 0;              // total number of questions attempted
+var correct = 0;                // total number of questions correct
+var incorrect = 0;              // total number of questions incorrect'
 
 /**
- * 
+ * Print out the 
+ * @param jqXHR 
  */
-function getQuestionList() {
-    $.ajax({
-        url: "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php",
-        method: "GET",
-        success: function(data) {
-            questionId = generateQuestionID(data);
-            getQuestionDetails(questionId);
-        },
-        error: function(jqXHR) {
-            printRequestError(jqXHR);
-        }
-    });
-}
-
-/**
- * 
- * @param questionId 
- */
-function getQuestionDetails(questionId) {
-    $.ajax({
-        url: "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php",
-        method: "GET",
-        data: {
-            "q": questionId
-        },
-        dataType: "json",
-        success: function(data) {
-            updateQuiz(data);
-        },
-        error: function(jqXHR) {
-            printRequestError(jqXHR);
-        }
-    });
-}
-
-/**
- * 
- * @param {*} questionId 
- * @param {*} answer 
- */
-function getAnswer(questionId, answer) {
-    $.ajax({
-        url: "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php",
-        method: "GET",
-        data: {
-            "q": questionId, 
-            "a": answer
-        },
-        dataType: "json",
-        success: function(data) {
-            handle_result(data);
-        },
-        error: function(jqXHR) {
-            printRequestError(jqXHR);
-        }
-    });
-}
-
-/**
- * 
- * @param {*} jqXHR 
- */
-function printRequestError(jqXHR) {
+ function printRequestError(jqXHR) {
     var $error = JSON.parse(jqXHR.responseText);
     console.log("Status code: " + $error.error);
     console.log("Error message: " + $error.message);
@@ -115,9 +45,41 @@ function printRequestError(jqXHR) {
 
 /**
  * 
- * @param {*} data 
+ * @param question 
+ * @param answer 
+ * @returns 
  */
-function updateQuiz(data) {
+async function makeRequest(question = null, answer = null) {
+    var input = {};
+    
+    if (question) input['q'] = question;
+    if (answer) input['a'] = answer;
+
+    let result = await $.ajax({
+        url: "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php",
+        method: "GET",
+        data: input
+    }).catch(err => {
+        printRequestError(err)
+    });
+
+    return result;
+}
+
+/**
+ * Update user results
+ */
+ function updateResults() {
+    $("#attempted").html("Attempted: " + attempted);
+    $("#correct").html("Correct: " + correct);
+    $("#incorrect").html("Incorrect: " + incorrect);
+}
+
+/**
+ * Update quiz questions and response
+ * @param data 
+ */
+ function updateQuiz(data) {
     $("#quiz_question").html(data["text"]);
     $("form label[for='answer_a']").html(data["choices"]["A"]);
     $("form label[for='answer_b']").html(data["choices"]["B"]);
@@ -127,18 +89,9 @@ function updateQuiz(data) {
 
 /**
  * 
+ * @param data 
  */
-function updateResults() {
-    $("#attempted").html("Attempted: " + attempted);
-    $("#correct").html("Correct: " + correct);
-    $("#incorrect").html("Incorrect: " + incorrect);
-}
-
-/**
- * 
- * @param {*} data 
- */
-function handle_result(data) {
+ function handleAnswerResult(data) {
     var result = data["correct"];
     checkedId = $("form input[name=answer]:checked")[0]["id"];
     
@@ -158,8 +111,8 @@ function handle_result(data) {
     }
 
     // hide submit button and show next button
-    $("#quiz input[value=Submit]").addClass("hidden");
-    $("#quiz button[value=Next]").removeClass("hidden").addClass("button");
+    $("#quiz input[type=submit]").addClass("hidden");
+    $("#quiz button[type=next]").removeClass("hidden");
     
     // display new results
     updateResults();
@@ -167,16 +120,67 @@ function handle_result(data) {
 
 /**
  * 
+ * @param data 
+ * @returns 
  */
-function nextQuiz() {
-    getQuestionList();
+ function getRandomQuestionID(questionList) {
 
+    var length = questionList["questions"].length;
+    var randn = Math.floor(Math.random() * (length - 1));
+    var id = questionList["questions"][randn];
+
+    if (id === questionId) 
+        id = getRandomQuestionID(questionList);
+    
+    return id;
+}
+
+/**
+ * 
+ */
+function getNewQuestion() {
+    //
+    makeRequest().then((data) => {
+        if (data) {
+            questionId = getRandomQuestionID(data);
+    
+            //
+            makeRequest(questionId).then((data) => {
+                if (data)
+                    updateQuiz(data);
+            });
+        }
+    });
+}
+
+/**
+ * 
+ * @param id 
+ * @param answer 
+ */
+function getAnswer(id, answer) {
+    makeRequest(id, answer).then((data) => {
+        if (data)
+            handleAnswerResult(data);
+    });
+}
+
+/**
+ * 
+ */
+ function nextQuiz() {
+    // get next question and update
+    getNewQuestion();
+
+    // enable selection of radio buttons
     $(".info_box input").attr("disabled", false);
 
+    // remove correct/incorrect colour from previous response
     $("#" + checkedId)
         .prop("checked", false)
         .parent().css({"background-color": "#f5f5f5f5"});
 
-    $("#quiz button[value=Next]").addClass("hidden");
-    $("#quiz input[value=Submit]").removeClass("hidden").addClass("button");
+    // hide next button and show submit button 
+    $("#quiz button[type=next]").addClass("hidden");
+    $("#quiz input[type=submit]").removeClass("hidden");
 }

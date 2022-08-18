@@ -1,5 +1,7 @@
 /**
- * 
+ * animate.js
+ * @author Krisna Gusti
+ * @brief 
  */
 
 // Window onLoad action - set an interval
