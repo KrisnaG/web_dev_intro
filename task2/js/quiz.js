@@ -7,8 +7,7 @@
 // Window onLoad actions and listeners
 $(function() {
     // initial quiz setup
-    getNewQuestion();
-    updateResults();
+    //getNewQuestion();
     
     // submit button listener
     $("#quiz").submit(
@@ -24,14 +23,14 @@ $(function() {
         $("#quiz button[value=Next]").click(function () {
             nextQuiz();
         })
-    });
+});
     
 // Global variables
 var checkedId;                  // answer input id
-var questionId = 0;             // question id
-var attempted = 0;              // total number of questions attempted
-var correct = 0;                // total number of questions correct
-var incorrect = 0;              // total number of questions incorrect'
+var questionId;                 // question id
+var attempted;                  // total number of questions attempted
+var correct;                    // total number of questions correct
+var incorrect;                  // total number of questions incorrect'
 
 /**
  * Print out the 
@@ -85,6 +84,16 @@ async function makeRequest(question = null, answer = null) {
     $("form label[for='answer_b']").html(data["choices"]["B"]);
     $("form label[for='answer_c']").html(data["choices"]["C"]);
     $("form label[for='answer_d']").html(data["choices"]["D"]);
+}
+
+/**
+ * Resets all quiz results to 0;
+ */
+function resetResults() {
+    attempted = 0;
+    correct = 0;
+    incorrect = 0;
+    updateResults();
 }
 
 /**

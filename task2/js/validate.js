@@ -163,7 +163,8 @@ function validatePhone(phone) {
 }
 
 /**
- * Registers 
+ * Registers a user with the server then updates user id and switches
+ * to the quiz form.
  * @param name valid users name
  * @param age valid users age
  * @param email valid users email
@@ -181,7 +182,6 @@ function registerUser(name, age, email, phone) {
         },
         dataType: "json",
         success: function(data) {
-            
             // display user id
             $("#user_id p").html(data["user_id"]);
 
@@ -195,9 +195,17 @@ function registerUser(name, age, email, phone) {
                 $("#quiz").removeClass("hidden");
             });
 
+            
             // hide welcome sidebar, show score sidebar
             $("#welcome").addClass("hidden");
             $("#score").removeClass("hidden");
+            
+            // clear registration form content
+            $("#registration")[0].reset();
+            
+            // 
+            window.nextQuiz();
+            window.resetResults();
         },
         error: function(jqXHR) {
             var $e = JSON.parse(jqXHR.responseText);

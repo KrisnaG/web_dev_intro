@@ -23,6 +23,7 @@
     <script type="text/javascript" src="js/validate.js"></script>
     <script type="text/javascript" src="js/quiz.js"></script>
     <script type="text/javascript" src="js/animate.js"></script>
+    <script type="text/javascript" src="js/navigation.js"></script>
 
 </head>
 <body>
@@ -53,9 +54,9 @@
         <!-- navigation -->
         <nav>
             <ul>
-                <a href=""><li>User Registration</li></a>
-                <a href=""><li>Quiz</li></a>
-                <a href=""><li>Results</li></a>
+                <a href="#registration" id="registration-link"><li>User Registration</li></a>
+                <a href="#quiz" id="quiz-link"><li>Quiz</li></a>
+                <a href="#score" id="results-link"><li>Results</li></a>
             </ul>
         </nav>
         
@@ -131,7 +132,7 @@
         <!-- sidebar -->
         <aside id="sidebar" class="col">
             <p id="welcome">Welcome to the animal quiz!<br>
-                <a href="">Click here to get started!</a>
+                <a href="#quiz" id="start">Click here to get started!</a>
             </p>
             
             

@@ -46,9 +46,20 @@ body {
     flex: 30%;
 }
 
+.center_sidebar {
+    position: relative;
+    right: 40%;
+    font-weight: bold;
+    font-size: larger;
+}
+
 /* mobile - change to 1-column layout */
 @media only screen and (max-width: 516px) {
     #img_animation {
         display: inline;
+    }
+    .center_result {
+        position: relative;
+        right: 0%;
     }
 }
