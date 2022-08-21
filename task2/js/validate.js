@@ -171,8 +171,11 @@ function validatePhone(phone) {
  * @param phone valid users phone
  */
 function registerUser(name, age, email, phone) {
+    var userID = parseInt($("#user_id p").text());
+    var url = "http://turing.une.edu.au/~jbisho23/assignment2/register.php";
+
     $.ajax({
-        url: "http://turing.une.edu.au/~jbisho23/assignment2/register.php",
+        url: url,
         method: "POST",
         data: {
             name : name,
@@ -184,28 +187,23 @@ function registerUser(name, age, email, phone) {
         success: function(data) {
             // display user id
             $("#user_id p").html(data["user_id"]);
-
-            // hide registration
-            $("#registration").slideUp(500, function() {
-                $("#registration").addClass("hidden");
-            });
             
-            // show quiz
-            $("#quiz").slideDown(500, function() {
-                $("#quiz").removeClass("hidden");
-            });
-
-            
-            // hide welcome sidebar, show score sidebar
-            $("#welcome").addClass("hidden");
-            $("#score").removeClass("hidden");
-            
-            // clear registration form content
-            $("#registration")[0].reset();
-            
-            // 
+            // setup quiz
             window.nextQuiz();
             window.resetResults();
+
+            // hide registration and welcome
+            $("#registration").addClass("hidden");
+            $("#welcome").addClass("hidden");
+            
+            // show quiz and score after short delay
+            setTimeout(() => {
+                $("#quiz").removeClass("hidden");
+                $("#score").removeClass("hidden");
+            }, 500);
+                   
+            // clear registration form content
+            $("#registration")[0].reset();
         },
         error: function(jqXHR) {
             var $e = JSON.parse(jqXHR.responseText);
@@ -213,4 +211,5 @@ function registerUser(name, age, email, phone) {
             console.log("Error message: " + $e.message);
         }
     });
+
 }

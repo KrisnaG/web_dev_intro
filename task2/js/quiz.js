@@ -4,11 +4,8 @@
  * @brief 
  */
 
-// Window onLoad actions and listeners
+// Window onLoad listeners
 $(function() {
-    // initial quiz setup
-    //getNewQuestion();
-    
     // submit button listener
     $("#quiz").submit(
         function(e) {
@@ -43,19 +40,23 @@ var incorrect;                  // total number of questions incorrect'
 }
 
 /**
- * 
- * @param question 
- * @param answer 
- * @returns 
+ * Makes a GET request to the quiz server with the given question ID 
+ * and answer and returns the results
+ * @param question Question ID (optional) 
+ * @param answer User selected answer (optional)
+ * @returns Results of the quiz request
  */
 async function makeRequest(question = null, answer = null) {
     var input = {};
+    var url = "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php";
     
+    // prefill question and answer if given
     if (question) input['q'] = question;
     if (answer) input['a'] = answer;
 
-    let result = await $.ajax({
-        url: "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php",
+    // get and wait for quiz request
+    var result = await $.ajax({
+        url: url,
         method: "GET",
         data: input
     }).catch(err => {
@@ -66,7 +67,7 @@ async function makeRequest(question = null, answer = null) {
 }
 
 /**
- * Update user results
+ * Update user results on sidebar
  */
  function updateResults() {
     $("#attempted").html("Attempted: " + attempted);
@@ -75,8 +76,8 @@ async function makeRequest(question = null, answer = null) {
 }
 
 /**
- * Update quiz questions and response
- * @param data 
+ * Update quiz questions and response answers
+ * @param data Question information
  */
  function updateQuiz(data) {
     $("#quiz_question").html(data["text"]);
@@ -128,16 +129,16 @@ function resetResults() {
 }
 
 /**
- * 
- * @param data 
- * @returns 
+ * Randomly select a new quiz ID from the given quiz list
+ * @param questionList List of question IDs
+ * @returns New quiz ID
  */
  function getRandomQuestionID(questionList) {
-
     var length = questionList["questions"].length;
-    var randn = Math.floor(Math.random() * (length - 1));
-    var id = questionList["questions"][randn];
+    var number = Math.floor(Math.random() * (length - 1));
+    var id = questionList["questions"][number];
 
+    // if same ID is chosen call function again
     if (id === questionId) 
         id = getRandomQuestionID(questionList);
     
@@ -148,15 +149,16 @@ function resetResults() {
  * 
  */
 function getNewQuestion() {
-    //
-    makeRequest().then((data) => {
-        if (data) {
-            questionId = getRandomQuestionID(data);
-    
-            //
-            makeRequest(questionId).then((data) => {
-                if (data)
-                    updateQuiz(data);
+    // get a list of question IDs
+    makeRequest().then((dataId) => {
+        if (dataId) {
+            // select random quiz iD
+            questionId = getRandomQuestionID(dataId);
+            // get quiz information
+            makeRequest(questionId).then((dataInfo) => {
+                // update quiz
+                if (dataInfo)
+                    updateQuiz(dataInfo);
             });
         }
     });
@@ -164,10 +166,11 @@ function getNewQuestion() {
 
 /**
  * 
- * @param id 
- * @param answer 
+ * @param id ID of question to check
+ * @param answer User selected answer
  */
 function getAnswer(id, answer) {
+    // get results of selected answer and update
     makeRequest(id, answer).then((data) => {
         if (data)
             handleAnswerResult(data);
