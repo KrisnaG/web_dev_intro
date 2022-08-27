@@ -20,10 +20,10 @@
             crossorigin="anonymous"></script>
 
     <!-- JS -->
-    <script type="text/javascript" src="js/validate.js"></script>
-    <script type="text/javascript" src="js/quiz.js"></script>
-    <script type="text/javascript" src="js/animate.js"></script>
-    <script type="text/javascript" src="js/navigation.js"></script>
+    <script src="js/validate.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/animate.js"></script>
+    <script src="js/navigation.js"></script>
 
 </head>
 <body>
@@ -34,19 +34,19 @@
         <!-- JQUERY ANIMATION SHOULD BE DONE HERE -->
         <div id="img_animation">
             <div id="animation_one" class="image_container">
-                <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288px" height="190px"/>
-                <img src="img/deer.jpg" title="Deer" alt="Deer" width="288px" height="190px" class="hidden"/>
-                <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288px" height="190px" class="hidden"/>
+                <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288" height="190"/>
+                <img src="img/deer.jpg" title="Deer" alt="Deer" width="288" height="190" class="hidden"/>
+                <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288" height="190" class="hidden"/>
             </div>
             <div id="animation_two" class="image_container">
-                <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288px" height="190px" class="hidden"/>
-                <img src="img/deer.jpg" title="Deer" alt="Deer" width="288px" height="190px"/>
-                <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288px" height="190px" class="hidden"/>
+                <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288" height="190" class="hidden"/>
+                <img src="img/deer.jpg" title="Deer" alt="Deer" width="288" height="190"/>
+                <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288" height="190" class="hidden"/>
             </div>
             <div id="animation_three" class="image_container">
-                <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288px" height="190px" class="hidden"/>
-                <img src="img/deer.jpg" title="Deer" alt="Deer" width="288px" height="190px" class="hidden"/>
-                <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288px" height="190px"/>
+                <img src="img/hedgehog.jpg" title="Hedgehog" alt="Hedgehog" width="288" height="190" class="hidden"/>
+                <img src="img/deer.jpg" title="Deer" alt="Deer" width="288" height="190" class="hidden"/>
+                <img src="img/leopard.jpg" title="Leopard" alt="Leopard" width="288" height="190"/>
             </div>
         </div>
         
@@ -54,19 +54,20 @@
         <!-- navigation -->
         <nav>
             <ul>
-                <a href="#registration" id="registration-link"><li>User Registration</li></a>
-                <a href="#quiz" id="quiz-link"><li>Quiz</li></a>
-                <a href="#score" id="results-link"><li>Results</li></a>
+                <li><a href="#registration" id="registration-link">User Registration</a></li>
+                <li><a href="#quiz" id="quiz-link">Quiz</a></li>
+                <li><a href="#score" id="results-link">Results</a></li>
             </ul>
         </nav>
         
         <!-- main content -->
         <div id="content" class="col">
-            
+            <fieldset>
+                <legend><h2>User Registration</h2></legend>
+            </fieldset>
             <!-- registration form -->
             <!-- FORM USED FOR USER REGISTRATION -->
-            <form method="post" action="" id="registration" class="">
-                <legend><h2>User Registration</h2></legend>
+            <form method="post" id="registration" class="">
                 <fieldset>
                     <label for="name">Name:</label>
                     <input type="text" name="name" id="name"/>
@@ -84,15 +85,16 @@
                     <input type="text" name="phone" id="phone" />
                 </fieldset>
                 <fieldset>
-                    <input type="submit" value="Submit" class="button"/>
+                    <input type="submit" value="Register" class="button"/>
                     <input type="reset" value="Reset" class="button"/>
                 </fieldset>
             </form>
             
             <!-- quiz questions -->
             <form id="quiz" class="hidden">
-                <legend><h2>Animal Quiz</h2></legend>
-                
+                <fieldset>
+                    <legend><h2>Animal Quiz</h2></legend>
+                </fieldset>
                 <!-- QUIZ QUESTION TEXT SHOULD GO HERE -->
                 <fieldset>
                     <label id="quiz_question">QUESTION TEXT HERE</label>
@@ -119,7 +121,7 @@
                 </fieldset>
                 <fieldset>
                     <input type="submit" value="Submit" class="button"/>
-                    <button type="next", value="Next" class="button hidden">Next</button>
+                    <button type="button" value="Next" class="button hidden">Next</button>
                 </fieldset>
             </form>
             

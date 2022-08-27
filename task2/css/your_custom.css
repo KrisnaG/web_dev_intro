@@ -21,7 +21,10 @@ the space for the element will NOT be preserved
     background-color: red;
 }
 
-/* My custom CSS */
+/* 
+ * My custom CSS below.
+ * Author: Krisna Gusti 
+ */
 
 body {
     background-color:rgb(236, 245, 197);
@@ -51,6 +54,13 @@ body {
     right: 40%;
     font-weight: bold;
     font-size: larger;
+}
+
+.button {
+    border-radius: 10%;
+    background: rgb(211, 196, 66);
+    box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.8);
+    outline: none;  
 }
 
 /* mobile - change to 1-column layout */

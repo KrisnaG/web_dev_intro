@@ -1,7 +1,9 @@
 /**
  * animate.js
  * @author Krisna Gusti
- * @brief 
+ * @brief Animates a slider of three images, transitioning
+ * between three images at a set interval. Each image
+ * has a different animation effect between transitions.
  */
 
 // Window onLoad action - set an interval

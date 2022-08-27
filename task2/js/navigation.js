@@ -1,7 +1,8 @@
 /**
  * navigation.js
  * @author Krisna Gusti
- * @brief 
+ * @brief Handles the transitions between the navigational links
+ * that can switch between registration, quiz and results.
  */
 
 // Window onLoad actions and listeners
@@ -13,16 +14,17 @@ $(function() {
 });
 
 /**
- * 
- * @param form 
+ * Adds the class hidden to the given form to hide it
+ * @param form Form to hide
  */
 function hideForm(form) {
     form.addClass("hidden");
 }
 
 /**
- * 
- * @param form 
+ * Removes the class hidden from a given class and
+ * transitions to show it.
+ * @param form Form to show
  */
 function showForm(form) {
     form.css({"opacity" : "0"})
@@ -33,11 +35,11 @@ function showForm(form) {
 }
 
 /**
- * 
+ * Adds a registration error to user message
  */
 function registerError() {
     var userMessage = $("#user_message");
-    var message = "<p>Please register</p>";
+    var message = "<p>Please register first</p>";
 
     // add message and display
     userMessage.html(message)
@@ -45,7 +47,7 @@ function registerError() {
 }
 
 /**
- * 
+ * Transition to the registration menu
  */
 function switchToRegistration() {
     var registration = $("#registration");
@@ -59,13 +61,12 @@ function switchToRegistration() {
         // show registration
         showForm(registration);
         showForm($("#content"));
-        showForm($("#welcome"));
-        
+        showForm($("#welcome"));  
     }
 }
 
 /**
- * 
+ * Transition to the quiz menu
  */
 function switchToQuiz() {
     var userID = parseInt($("#user_id p").text());
@@ -88,11 +89,10 @@ function switchToQuiz() {
             showForm($("#score"));
         }
     }
-    
 }
 
 /**
- * 
+ * Transition to the results menu
  */
 function switchToResults() {
     var userID = parseInt($("#user_id p").text());

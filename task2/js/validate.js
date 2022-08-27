@@ -2,10 +2,12 @@
  * validate.js
  * @author Krisna Gusti
  * @brief Validates the form data before it is sent to the server.
- * A user error message is displayed for each invalid response. Once
- * the form data is valid, it sends the data to the server via AJAX
- * request. A response is returned from the sever with the users 
- * ID, then the user id is updated and it switches to the quiz form.
+ * A user error message is displayed for each invalid response.
+ * Validation is done in vanilla JavaScript. Once the form data is 
+ * valid, it sends the data to the server via AJAX request. A 
+ * response is returned from the sever with the users ID, then the 
+ * user id is updated and it switches to the quiz form.Handles any 
+ * error messages.
  */
 
 // Window onLoad listener

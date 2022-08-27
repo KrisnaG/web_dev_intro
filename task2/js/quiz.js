@@ -1,7 +1,11 @@
 /**
  * quiz.js
  * @author Krisna Gusti
- * @brief 
+ * @brief Ajax quiz service. Handles all quiz related interaction.
+ * Makes requests to the server for quiz information and displays 
+ * it to the user. Once the user submits a response for a question,
+ * a request it made to the sever for the result. The result is then
+ * displayed to the user. 1the quiz service is run indefinitely.
  */
 
 // Window onLoad listeners
@@ -10,16 +14,21 @@ $(function() {
     $("#quiz").submit(
         function(e) {
             e.preventDefault();
+            window.clearErrors();
             var selected = $("form input[name=answer]:checked").val();
+
+            // check if a response is selected
             if (selected)
-            getAnswer(questionId, selected);
+                getAnswer(questionId, selected);
+            else
+                window.addError("Please Select an answer");
         }
         );
         
-        // next button listener
-        $("#quiz button[value=Next]").click(function () {
-            nextQuiz();
-        })
+    // next button listener
+    $("#quiz button[value=Next]").click(function () {
+        nextQuiz();
+    })
 });
     
 // Global variables
@@ -30,7 +39,7 @@ var correct;                    // total number of questions correct
 var incorrect;                  // total number of questions incorrect'
 
 /**
- * Print out the 
+ * Print out the JSON error response from the request
  * @param jqXHR 
  */
  function printRequestError(jqXHR) {
@@ -46,7 +55,7 @@ var incorrect;                  // total number of questions incorrect'
  * @param answer User selected answer (optional)
  * @returns Results of the quiz request
  */
-async function makeRequest(question = null, answer = null) {
+async function makeQuizRequest(question = null, answer = null) {
     var input = {};
     var url = "http://turing.une.edu.au/~jbisho23/assignment2/quiz.php";
     
@@ -98,8 +107,10 @@ function resetResults() {
 }
 
 /**
- * 
- * @param data 
+ * Highlights the selected answer green if correct or red if 
+ * incorrect. Displays next button to move to next question and
+ * updates the results.
+ * @param data Answer response
  */
  function handleAnswerResult(data) {
     var result = data["correct"];
@@ -121,8 +132,8 @@ function resetResults() {
     }
 
     // hide submit button and show next button
-    $("#quiz input[type=submit]").addClass("hidden");
-    $("#quiz button[type=next]").removeClass("hidden");
+    $("#quiz input[value=Submit]").addClass("hidden");
+    $("#quiz button[value=Next]").removeClass("hidden");
     
     // display new results
     updateResults();
@@ -146,16 +157,17 @@ function resetResults() {
 }
 
 /**
- * 
+ * Makes a request for a new random question and its information,
+ * then updates the quiz question.
  */
 function getNewQuestion() {
     // get a list of question IDs
-    makeRequest().then((dataId) => {
+    makeQuizRequest().then((dataId) => {
         if (dataId) {
             // select random quiz iD
             questionId = getRandomQuestionID(dataId);
             // get quiz information
-            makeRequest(questionId).then((dataInfo) => {
+            makeQuizRequest(questionId).then((dataInfo) => {
                 // update quiz
                 if (dataInfo)
                     updateQuiz(dataInfo);
@@ -165,20 +177,21 @@ function getNewQuestion() {
 }
 
 /**
- * 
+ * Makes a request with the given question ID and selected
+ * answer for the answer, then handles the results.
  * @param id ID of question to check
  * @param answer User selected answer
  */
 function getAnswer(id, answer) {
     // get results of selected answer and update
-    makeRequest(id, answer).then((data) => {
+    makeQuizRequest(id, answer).then((data) => {
         if (data)
             handleAnswerResult(data);
     });
 }
 
 /**
- * 
+ * Gets a new question and displays the submit button
  */
  function nextQuiz() {
     // get next question and update
@@ -193,6 +206,6 @@ function getAnswer(id, answer) {
         .parent().css({"background-color": "#f5f5f5f5"});
 
     // hide next button and show submit button 
-    $("#quiz button[type=next]").addClass("hidden");
-    $("#quiz input[type=submit]").removeClass("hidden");
+    $("#quiz button[value=Next]").addClass("hidden");
+    $("#quiz input[value=Submit]").removeClass("hidden");
 }
