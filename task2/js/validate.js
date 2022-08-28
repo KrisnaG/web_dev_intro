@@ -202,7 +202,7 @@ function registerUser(name, age, email, phone) {
             setTimeout(() => {
                 $("#quiz").removeClass("hidden");
                 $("#score").removeClass("hidden");
-            }, 500);
+            }, 250);
                    
             // clear registration form content
             $("#registration")[0].reset();
