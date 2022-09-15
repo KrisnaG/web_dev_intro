@@ -72,6 +72,9 @@ function switchToQuiz() {
     var userID = parseInt($("#user_id p").text());
     var quiz = $("#quiz");
 
+    // clear any errors
+    window.clearErrors();
+
     // check if user is logged in
     if (!$.isNumeric(userID)) {
         registerError();

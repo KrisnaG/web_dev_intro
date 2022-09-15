@@ -23,7 +23,7 @@ the space for the element will NOT be preserved
 
 /* 
  * My custom CSS below.
- * Author: Krisna Gusti 
+ * Author: Krisna Gusti kgusti@myune.edu.au 
  */
 
 body {
@@ -41,9 +41,8 @@ body {
     width: 80%;
 }
 
-#sidebar {
-    text-align: center;
-}
+
+/* Image */
 
 #img_animation {
     display: flex;
@@ -53,6 +52,12 @@ body {
     flex: 30%;
 }
 
+/* Results sidebar */
+
+#sidebar {
+    text-align: center;
+}
+
 .center_sidebar {
     position: relative;
     right: 40%;
@@ -60,8 +65,11 @@ body {
     font-size: larger;
 }
 
+/* Buttons - Submit/Reset/Next */
+
 .button {
     background: #f5f5f8;
+    padding: 2px;
     color: #43484d;
     border: 4px solid #f5f5f8;
     border-radius: 20%;
@@ -81,11 +89,12 @@ body {
 }
 
 /* mobile - change to 1-column layout */
+
 @media only screen and (max-width: 516px) {
     #img_animation {
         display: inline;
     }
-    .center_result {
+    .center_sidebar {
         position: relative;
         right: 0%;
     }
