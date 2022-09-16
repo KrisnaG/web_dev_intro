@@ -1,38 +1,73 @@
 <?php
-    require_once __DIR__ . '/error_response.php';
-    require_once __DIR__ . '/validation.php';
+    /**
+     * File: register.php
+     * Author: Krisna Gusti
+     * Description:
+     */
 
+    // import required files
+    require_once __DIR__ . "/class/Database.php";
+    require_once __DIR__ . "/utility/error_response.php";
+    require_once __DIR__ . "/utility/validation.php";
+    require_once __DIR__ . "/utility/password_gen.php";
+
+    // set headers
+    header("Content-Type: application/json; charset=utf-8");
+    header("Access-Control-Allow-Origin: *");
+
+    // response codes
+    $RESPONSES = [
+        400 => "Bad Request",
+        404 => "Not Found",
+        405 => "Method Not Allowed",
+        500 => "Internal server error"
+    ];
+    
+    // User fields and proper descriptions
+    $user_fields = [
+        "username" => "Username", 
+        "fullName" => "Full name", 
+        "dateOfBirth" => "Date of birth", 
+        "email" => "Email"
+    ];
+    
+    // initial response arrays
     $errors = array();
-    $result = array();
+    $response = array();
     
     // check POST only requests
     if ($_SERVER["REQUEST_METHOD"] !== "POST") 
-        send_error(405, "Only POST requests allowed.");
+        send_error(405, $RESPONSES, "Only POST requests allowed.");
     
     // validate request
-    if (!empty($_POST)) {
-        validate_request_parameter('username', $result, $errors, "Username");
-        validate_request_parameter('fullName', $result, $errors, "Full name");
-        validate_request_parameter('dateOfBirth', $result, $errors, "Date of birth");
-        validate_request_parameter('email', $result, $errors, "Email");
-    } else {
-        send_error(400, "No POST data received.");
-    }
+    if (!empty($_POST)) 
+        foreach ($user_fields as $key => $value)
+            validate_request_parameter($key, $response, $errors, $value);
+    else 
+        send_error(404, $RESPONSES, "No POST data received.");
 
     // respond with any errors
     if (!empty($errors))
-        send_parameter_error(400, $errors);
+        send_parameter_error(404, $RESPONSES, $errors);
 
     // validate data
-    validate_username($result['username'], $errors);
-    validate_full_name($result['fullName'], $errors);
-    validate_date_of_birth($result['dateOfBirth'], $errors);
-    validate_email($result['email'], $errors);
+    validate_user_data($response, $errors);
 
     // respond with any errors
     if (!empty($errors))
-        send_parameter_error(400, $errors);
+        send_parameter_error(400, $RESPONSES, $errors);
 
-    //
-    echo json_encode($result);
+    // generate and return temporary password
+    echo json_encode(
+        generate_temp_password(
+            $response['username'], 
+            $response['dateOfBirth']
+    ));
+    
+    // create database with user detail properties
+    $Database = new Database($response);
+    
+    // write users details to the database file
+    if (!Database::save_user($Database))
+        send_error(500, $RESPONSES, "Database does not exist.");
 ?>

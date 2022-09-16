@@ -1,25 +1,44 @@
 <?php
-    
+    /**
+     * File: validation.php
+     * Author: Krisna Gusti
+     * Description:
+     */
+
     /**
      * Validates a POST request parameter is present. If present store
      * in results array, otherwise the error response array will be 
      * updated with the appropriate message.
      * 
      * @param string $param Parameter data to check
-     * @param array $result Results to store present data
+     * @param array $response Results to store present data
      * @param array $errors Error response to capture any errors
      * @param string $name Proper name of parameter
      * @return void
      */
-    function validate_request_parameter($param, &$result, &$errors, $name) {
+    function validate_request_parameter($param, &$response, &$errors, $name) {
         $set = isset($_POST[$param]);
 
-        if ($set && $_POST[$param] == '')
+        if ($set && $_POST[$param] == "")
             $errors[$param] = "$name must not be empty.";
         else if ($set)
-            $result[$param] = $_POST[$param];
+            $response[$param] = $_POST[$param];
         else 
             $errors[$param] = "$name must be provided.";
+    }
+
+    /**
+     * Validates all users input data.
+     * 
+     * @param array $response Results of user data
+     * @param array $errors Error response to capture any errors
+     * @return void
+     */
+    function validate_user_data($response, &$errors) {
+        validate_username($response['username'], $errors);
+        validate_full_name($response['fullName'], $errors);
+        validate_date_of_birth($response['dateOfBirth'], $errors);
+        validate_email($response['email'], $errors);
     }
 
     /**
@@ -55,7 +74,7 @@
     function validate_full_name($fullName, &$errors) {
         if (!preg_match('/^[-a-zA-Z\' ]+$/', $fullName))
             $errors['fullName'] = "Name can only contain letters, hyphens or apostrophes.";
-        else if (!preg_match('/^[a-zA-Z\'-]*(?: [a-zA-Z\'-]+)+$/', $fullName)) // TODO
+        else if (!preg_match('/^[a-zA-Z\'-]*(?: [a-zA-Z\'-]+)+$/', $fullName))
             $errors['fullName'] = "Invalid full name.";
     }
 
@@ -68,7 +87,8 @@
      * @return void
      */
     function validate_date_of_birth($dateOfBirth, &$errors) {
-        if (!preg_match('/^[0-3]?\d\/[0-1]?[0-2]\/[1-2]?(?:\d{3})$/', $dateOfBirth))
+        if (!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $dateOfBirth) ||
+            !(bool)DateTime::createFromFormat("d/m/Y", $dateOfBirth))
             $errors['dateOfBirth'] = "Invalid date of birth. Format: DD/MM/YYYY";
     }
 
