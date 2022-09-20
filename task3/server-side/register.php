@@ -2,26 +2,20 @@
     /**
      * File: register.php
      * Author: Krisna Gusti
-     * Description:
+     * Description: Receives external POST data request to validate and 
+     * register a user within a database. A JSON object is returned with 
+     * the users temporary password.
      */
 
     // import required files
     require_once __DIR__ . "/class/Database.php";
-    require_once __DIR__ . "/utility/error_response.php";
+    require_once __DIR__ . "/class/ErrorResponse.php";
     require_once __DIR__ . "/utility/validation.php";
     require_once __DIR__ . "/utility/password_gen.php";
 
     // set headers
     header("Content-Type: application/json; charset=utf-8");
     header("Access-Control-Allow-Origin: *");
-
-    // response codes
-    $RESPONSES = [
-        400 => "Bad Request",
-        404 => "Not Found",
-        405 => "Method Not Allowed",
-        500 => "Internal server error"
-    ];
     
     // User fields and proper descriptions
     $user_fields = [
@@ -33,41 +27,40 @@
     
     // initial response arrays
     $errors = array();
-    $response = array();
+    $user_response = array();
+
+    // create database
+    $database = new Database();
     
     // check POST only requests
     if ($_SERVER["REQUEST_METHOD"] !== "POST") 
-        send_error(405, $RESPONSES, "Only POST requests allowed.");
+        ErrorResponse::send_error(405, "Only POST requests allowed.");
     
-    // validate request
-    if (!empty($_POST)) 
-        foreach ($user_fields as $key => $value)
-            validate_request_parameter($key, $response, $errors, $value);
-    else 
-        send_error(404, $RESPONSES, "No POST data received.");
-
-    // respond with any errors
-    if (!empty($errors))
-        send_parameter_error(404, $RESPONSES, $errors);
-
+    // validate received POST
+    if (empty($_POST)) 
+        ErrorResponse::send_error(404, "No POST data received.");       
+ 
+    // validate POST fields
+    foreach ($user_fields as $key => $value) 
+        if (!validate_request_parameter($key, $user_response, $errors, $value))
+            ErrorResponse::send_error(404, array_values($errors)[0]);
+    
     // validate data
-    validate_user_data($response, $errors);
+    if (!validate_user_data($user_response, $errors))
+        ErrorResponse::send_error(400, array_values($errors)[0]);
 
-    // respond with any errors
-    if (!empty($errors))
-        send_parameter_error(400, $RESPONSES, $errors);
+    // set users details in database
+    if (!$database->set_user($user_response))
+        ErrorResponse::send_error(500, "Error with user properties in database.");
+
+    // write users details to the database file
+    if (!Database::save_user($database, json_encode($database)))
+        ErrorResponse::send_error(500, "Error with database.");
 
     // generate and return temporary password
     echo json_encode(
         generate_temp_password(
-            $response['username'], 
-            $response['dateOfBirth']
+            $user_response["username"], 
+            $user_response["dateOfBirth"]
     ));
-    
-    // create database with user detail properties
-    $Database = new Database($response);
-    
-    // write users details to the database file
-    if (!Database::save_user($Database))
-        send_error(500, $RESPONSES, "Database does not exist.");
 ?>

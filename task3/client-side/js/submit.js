@@ -1,6 +1,5 @@
 // enter the URL of your web server!
 var url = "http://localhost/cosc260/a3/server-side/register.php";
-//var url = "http://localhost/cosc260/tut8/register.php";
 
 $(function() {
   $('#registration').submit(function(e) {
@@ -13,30 +12,17 @@ $(function() {
 function send_request() {
   // remove messages
   remove_msg();
-  d = {
-    'username': "Test1",
-    'fullName': "Test2",
-    'dateOfBirth': "Test3",
-    'email': "Test4"
-  }
-
 
   // make request
   $.ajax({
     url: url,
     method: 'POST',
-    data: d,
-    //data: $('#registration').serialize(),
+    data: $('#registration').serialize(),
     dataType: 'json',
-    success: function(data) {
-      console.log("SUCCESS")
-      console.log(data)
-      // log user_id to console
-      console.log(data.user_id);
-      
+    success: function(data) {     
       // display user_id on page
       $('#server_response').addClass('success');
-      $('#server_response span').text('user_id: ' + data.user_id);
+      $('#server_response span').text('Temporary password: ' + data.password);
     },
     error: function(jqXHR) {
 

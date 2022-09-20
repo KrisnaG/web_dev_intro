@@ -2,26 +2,25 @@
     /**
      * File: password_gen.php
      * Author: Krisna Gusti
-     * Description: 
+     * Description: Generates a password and returns the results.
      */
     
     /**
-     * Generates a temporary password utilising the users
-     * randomising the users username and appending the
-     * users age in years.
+     * Generates a temporary password by randomising the users username
+     * and appending the users age in years.
      * 
-     * @param string $username 
-     * @param string $dateOfBirth
+     * @param string $username Users username
+     * @param string $dateOfBirth Users date of birth
      * @return object temporary password
      */
     function generate_temp_password($username, $dateOfBirth) {
         // set dates
-        $today = date('d-m-Y');
-        $date = str_replace('/', '-', $dateOfBirth);
+        $today = date("d-m-Y");
+        $dob = str_replace('/', '-', $dateOfBirth);
 
         // find the difference in dates
         $age = date_diff(
-            date_create($date),
+            date_create($dob),
             date_create($today)
         );
         

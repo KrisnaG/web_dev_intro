@@ -2,7 +2,7 @@
     /**
      * File: validation.php
      * Author: Krisna Gusti
-     * Description:
+     * Description: Validates all users requests and data.
      */
 
     /**
@@ -14,7 +14,7 @@
      * @param array $response Results to store present data
      * @param array $errors Error response to capture any errors
      * @param string $name Proper name of parameter
-     * @return void
+     * @return bool true if no errors, otherwise false
      */
     function validate_request_parameter($param, &$response, &$errors, $name) {
         $set = isset($_POST[$param]);
@@ -25,6 +25,8 @@
             $response[$param] = $_POST[$param];
         else 
             $errors[$param] = "$name must be provided.";
+
+        return empty($errors);
     }
 
     /**
@@ -32,13 +34,15 @@
      * 
      * @param array $response Results of user data
      * @param array $errors Error response to capture any errors
-     * @return void
+     * @return bool true if no errors, otherwise false
      */
     function validate_user_data($response, &$errors) {
-        validate_username($response['username'], $errors);
-        validate_full_name($response['fullName'], $errors);
-        validate_date_of_birth($response['dateOfBirth'], $errors);
-        validate_email($response['email'], $errors);
+        validate_username($response["username"], $errors);
+        validate_full_name($response["fullName"], $errors);
+        validate_date_of_birth($response["dateOfBirth"], $errors);
+        validate_email($response["email"], $errors);
+        
+        return empty($errors);
     }
 
     /**
@@ -53,13 +57,13 @@
         $length = strlen($username);
 
         if ($length < 8 || $length > 20)
-            $errors['username'] = "Username must be between 8 and 20 characters long.";
-        else if (!preg_match('/[A-Z]/', $username))
-            $errors['username'] = "Username must contain at least one upper case letter.";
-        else if (!preg_match('/[~!@#$%^&*]/', $username))
-            $errors['username'] = "Username must contain at least one special character (~!@#$%^&*).";
-        else if (!preg_match('/[0-9]/', $username))
-            $errors['username'] = "Username must contain at least one number.";
+            $errors["username"] = "Username must be between 8 and 20 characters long.";
+        else if (!preg_match("/[A-Z]/", $username))
+            $errors["username"] = "Username must contain at least one upper case letter.";
+        else if (!preg_match("/[~!@#$%^&*]/", $username))
+            $errors["username"] = "Username must contain at least one special character (~!@#$%^&*).";
+        else if (!preg_match("/[0-9]/", $username))
+            $errors["username"] = "Username must contain at least one number.";
     }
 
     /**
@@ -72,10 +76,10 @@
      * @return void
      */
     function validate_full_name($fullName, &$errors) {
-        if (!preg_match('/^[-a-zA-Z\' ]+$/', $fullName))
-            $errors['fullName'] = "Name can only contain letters, hyphens or apostrophes.";
-        else if (!preg_match('/^[a-zA-Z\'-]*(?: [a-zA-Z\'-]+)+$/', $fullName))
-            $errors['fullName'] = "Invalid full name.";
+        if (!preg_match("/^[-a-zA-Z\" ]+$/", $fullName))
+            $errors["fullName"] = "Name can only contain letters, hyphens or apostrophes.";
+        else if (!preg_match("/^[a-zA-Z\"-]*(?: [a-zA-Z\"-]+)+$/", $fullName))
+            $errors["fullName"] = "Invalid full name. Minimum requirement first and last name.";
     }
 
     /**
@@ -87,9 +91,11 @@
      * @return void
      */
     function validate_date_of_birth($dateOfBirth, &$errors) {
-        if (!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $dateOfBirth) ||
-            !(bool)DateTime::createFromFormat("d/m/Y", $dateOfBirth))
-            $errors['dateOfBirth'] = "Invalid date of birth. Format: DD/MM/YYYY";
+        if (!preg_match("/^(\d{2})\/(\d{2})\/(\d{4})$/", $dateOfBirth, $piece))
+            $errors["dateOfBirth"] = "Invalid date of birth. Format: DD/MM/YYYY";
+        else if (!checkdate($piece[2], $piece[1], $piece[3]))
+            $errors["dateOfBirth"] = "Invalid date in date of birth. Must be a valid date, i.e.,
+                                      month not greater than 12.";
     }
 
     /**
@@ -101,6 +107,6 @@
      * @return void
      */
     function validate_email($email, &$errors) {
-        if (!preg_match('/^[a-zA-Z-]([\w\-.]+)?@([\w-]+\.)+[\w]+$/', $email))
-            $errors['email'] = "Invalid email address.";
+        if (!preg_match("/^[a-zA-Z-]([\w\-.]+)?@([\w-]+\.)+[\w]+$/", $email))
+            $errors["email"] = "Invalid email address. Format: id@domain.ext";
     }
