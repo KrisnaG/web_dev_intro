@@ -27,6 +27,7 @@
 
         /**
          * Set users details in database.
+         * 
          * @param array $user Associative array of users details
          * @return bool true if sets user with valid keys, otherwise false
          */
@@ -69,8 +70,12 @@
                 if (!file_exists($Database->dbFile))
                     file_put_contents($Database->dbFile, []);
 
-                // extract file contents and append user details
-                $db = json_decode(file_get_contents($Database->dbFile), true);
+                // extract file contents
+                if (($data = file_get_contents($Database->dbFile)) === false)
+                    return false;
+
+                // append user details
+                $db = json_decode($data, true);
                 $db[] = json_decode(strval($user), true);
 
                 // write json to file

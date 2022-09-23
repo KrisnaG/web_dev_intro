@@ -8,49 +8,37 @@
      */
 
     // import required files
-    require_once __DIR__ . "/class/Database.php";
-    require_once __DIR__ . "/class/ErrorResponse.php";
-    require_once __DIR__ . "/utility/validation.php";
-    require_once __DIR__ . "/utility/password_gen.php";
+    spl_autoload_register(function($class_name) { 
+        require_once __DIR__ . "/class/" . $class_name . ".php"; 
+    });
 
     // set headers
     header("Content-Type: application/json; charset=utf-8");
     header("Access-Control-Allow-Origin: *");
     
-    // User fields and proper descriptions
-    $user_fields = [
-        "username" => "Username", 
-        "fullName" => "Full name", 
-        "dateOfBirth" => "Date of birth", 
-        "email" => "Email"
-    ];
-    
-    // initial response arrays
-    $errors = array();
-    $user_response = array();
-
-    // create database
-    $database = new Database();
+    $user_data = array();           // hold user data
+    $database = new Database();     // create database
+    $validation = new Validator();  // user validation
     
     // check POST only requests
     if ($_SERVER["REQUEST_METHOD"] !== "POST") 
         ErrorResponse::send_error(405, "Only POST requests allowed.");
     
-    // validate received POST
+    // check if received any POST data
     if (empty($_POST)) 
         ErrorResponse::send_error(404, "No POST data received.");       
  
-    // validate POST fields
-    foreach ($user_fields as $key => $value) 
-        if (!validate_request_parameter($key, $user_response, $errors, $value))
-            ErrorResponse::send_error(404, array_values($errors)[0]);
+    // validate POST fields present and not empty
+    foreach (Validator::$user_fields as $key => $val) 
+        if (($user_data[$key] = $validation->validate_request_parameter($key)) === false)
+            ErrorResponse::send_error(404, $validation->get_first_error());
     
-    // validate data
-    if (!validate_user_data($user_response, $errors))
-        ErrorResponse::send_error(400, array_values($errors)[0]);
+    // validate user data
+    if (!$validation->validate_user_data($user_data))
+        ErrorResponse::send_error(400, $validation->get_first_error());
 
     // set users details in database
-    if (!$database->set_user($user_response))
+    if (!$database->set_user($user_data))
         ErrorResponse::send_error(500, "Error with user properties in database.");
 
     // write users details to the database file
@@ -59,8 +47,8 @@
 
     // generate and return temporary password
     echo json_encode(
-        generate_temp_password(
-            $user_response["username"], 
-            $user_response["dateOfBirth"]
+        PasswordGen::generate_temp_password(
+            $user_data["username"], 
+            $user_data["dateOfBirth"]
     ));
 ?>
